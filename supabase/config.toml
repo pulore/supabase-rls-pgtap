@@ -1,0 +1,69 @@
+project_id = "pulore-rls-example"
+
+# The local stack for this example. The tests need only Postgres
+# (supabase db start). Ports are moved off the 5432x defaults so the example
+# can run beside another local Supabase project.
+
+[api]
+enabled = true
+port = 54521
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54522
+shadow_port = 54520
+major_version = 17
+
+[db.pooler]
+enabled = false
+port = 54529
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[realtime]
+enabled = false
+
+[studio]
+enabled = true
+port = 54523
+api_url = "http://127.0.0.1"
+
+# CLI v3 reads this section only as [local_smtp]. A config with [inbucket]
+# stops every command that loads it.
+[local_smtp]
+enabled = true
+port = 54524
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = false
+minimum_password_length = 10
+password_requirements = "lower_upper_letters_digits"
+
+[auth.email]
+enabled = true
+double_confirm_changes = true
+enable_confirmations = true
+secure_password_change = true
+max_frequency = "1s"
+
+[edge_runtime]
+enabled = false
+
+[analytics]
+enabled = false
+port = 54527
